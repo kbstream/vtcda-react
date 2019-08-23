@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  font-size: 13px;
+  font-family: monospace;
+}
+
+.textarea {
+  height: 220px;
+  width: 100%;
+  resize: none;
+  &__right {
+    height: 100%;
+  }
+}
+
+label {
+  display: flex;
+  cursor: pointer;
+}
+
+input[type=checkbox] {
+  margin-right: 5px;
+}
+
+.row {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  width: 50%;
+  padding: 10px;
+}
+
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper {
+  max-width: 824px;
+}
+
+.link {
+  width: 100%;
+  margin: 5px 0 10px;
+}
+
+.time {
+  margin-left: 5px;
+}
+
+pre {
+  margin: 0;
+}
+
+hr {
+  margin: 10px 0 20px;
+}
+
+button {
+  cursor: pointer;
+}
