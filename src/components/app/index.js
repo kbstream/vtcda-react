@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import { getMainInfo, getDate, getTime, getLink } from '../../actions';
@@ -13,7 +13,9 @@ class App extends Component {
 		date: {},
 		time: '10:00',
 		link: '',
-		reminder: false
+		reminder: false,
+		dlc: false,
+		game: 'ETS'
 	};
 
 	handleChangeMainInfo = (e) => {
@@ -54,10 +56,19 @@ class App extends Component {
 		}
 	};
 
-	handleChangeReminder = e => {
+	handleChangeCheckbox = (e) => {
+		const name = e.target.dataset.checkbox;
 		this.setState({
-			reminder: e.target.checked
-		})
+				[name]: e.target.checked
+			}
+		)
+	};
+
+	handleChangeRadio = (e) => {
+		this.setState({
+				game: e.target.value
+			}
+		)
 	};
 
 	handleChangeTime = (e) => {
@@ -77,18 +88,25 @@ class App extends Component {
 
 
 	render() {
-		const { reminder } = this.state;
+		const { reminder, dlc, game } = this.state;
 		const { reducerDate, reducerTime, reducerMainInfo, reducerLink } = this.props;
+		const info = (
+			<Fragment>
+				<pre>{game} {(dlc) ? '+ DLC' : ''}</pre>
+				<pre>{reducerMainInfo[4]}</pre>
+				<pre>Старт: {reducerMainInfo[0]} ( {reducerMainInfo[1]} )</pre>
+				<pre>{reducerMainInfo[5]}</pre>
+				<pre>{reducerMainInfo[6]}</pre>
+			</Fragment>
+		);
+
 
 		let component;
 		if(this.state.reminder) {
 			component = (
 				<div>
 					<pre>$natural on the {reducerDate.day}th of {reducerDate.month} at {reducerTime} send @everyone</pre>
-					<pre>{reducerMainInfo[4]}</pre>
-					<pre>Старт: {reducerMainInfo[0]} ( {reducerMainInfo[1]} )</pre>
-					<pre>{reducerMainInfo[5]}</pre>
-					<pre>{reducerMainInfo[6]}</pre>
+					{info}
 					<pre>{reducerLink} to #анонс </pre>
 				</div>
 			)
@@ -96,10 +114,7 @@ class App extends Component {
 			component = (
 				<div>
 					<pre>@everyone</pre>
-					<pre>{reducerMainInfo[4]}</pre>
-					<pre>Старт: {reducerMainInfo[0]} ( {reducerMainInfo[1]} )</pre>
-					<pre>{reducerMainInfo[5]}</pre>
-					<pre>{reducerMainInfo[6]}</pre>
+					{info}
 					<pre>{reducerLink}</pre>
 				</div>
 			)
@@ -114,10 +129,29 @@ class App extends Component {
 							<div>
 								<textarea onChange={this.handleChangeMainInfo} className={'textarea header__textarea'} placeholder={'Информация о конове'}/>
 								<input type="text" onChange={this.handleChangeLink} className={'link'} required placeholder={'Ссылка на конвой'}/>
+								<div className={'flexbox checked-block'}>
+									<div className={'radio-block'}>
+										<label>
+											<input type="radio" name='nameGame' value='ETS' checked={this.state.game === 'ETS'} onChange={this.handleChangeRadio} data-checkbox="dlc"/>
+											ETS
+										</label>
+										<label>
+											<input type="radio" name='nameGame' value='ATS' checked={this.state.game === 'ATS'} onChange={this.handleChangeRadio} data-checkbox="dlc"/>
+											ATS
+										</label>
+									</div>
+									<pre>+ </pre>
+									<label>
+										<input type="checkbox" onChange={this.handleChangeCheckbox} data-checkbox="dlc"/>
+										DLC
+									</label>
+								</div>
+
+
 							</div>
 							<div>
 								<label>
-									<input type="checkbox" onChange={this.handleChangeReminder}/>
+									<input type="checkbox" onChange={this.handleChangeCheckbox} data-checkbox="reminder"/>
 									Reminder-Bot
 								</label>
 							</div>
@@ -142,6 +176,7 @@ class App extends Component {
 		);
 	}
 }
+
 
 const mapStateToProps = state => {
 	return {

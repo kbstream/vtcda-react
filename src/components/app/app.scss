@@ -14,12 +14,13 @@
 }
 
 label {
-  display: flex;
+  display: inline-flex;
   cursor: pointer;
 }
 
 input[type=checkbox] {
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .row {
@@ -37,6 +38,22 @@ input[type=checkbox] {
 .flexbox {
   display: flex;
   justify-content: space-between;
+}
+
+.checked-block {
+  margin-bottom: 10px;
+  justify-content: left;
+}
+
+.radio-block {
+  & > label {
+    margin-right: 5px;
+  }
+}
+
+input[type=radio] {
+  margin-right: 5px;
+  cursor: pointer;
 }
 
 .wrapper {
