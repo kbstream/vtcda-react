@@ -24,10 +24,25 @@ class App extends Component {
 		arrMainInfo.splice(0, 1);
 		arrMainInfo.splice(2, 4);
 		arrMainInfo.splice(4, 1);
-		arrMainInfo.splice(7);
+		arrMainInfo.splice(9);
+
+		arrMainInfo[7] = this.findCargo(arrMainInfo[7]);
+		arrMainInfo[8] = this.findCargo(arrMainInfo[8]);
+
 		this.setState({
 			arr: arrMainInfo
-		})
+		});
+
+	};
+
+	findCargo = (arr) => {
+		let result;
+		if(arr) {
+			result = arr.match(/\((\w+)\)/);
+			if(result) {
+				return result[1];
+			}
+		}
 	};
 
 	handleChangeLink = e => {
@@ -90,6 +105,9 @@ class App extends Component {
 	render() {
 		const { reminder, dlc, game } = this.state;
 		const { reducerDate, reducerTime, reducerMainInfo, reducerLink } = this.props;
+		const otherCargo = (reducerMainInfo[8]) ? <span>или {reducerMainInfo[8]}</span> : null;
+		const cargo = (reducerMainInfo[7]) ? <pre>Грузы: {reducerMainInfo[7]} {otherCargo}</pre> : null;
+
 		const info = (
 			<Fragment>
 				<pre>{game} {(dlc) ? '+ DLC' : ''}</pre>
@@ -97,6 +115,9 @@ class App extends Component {
 				<pre>Старт: {reducerMainInfo[0]} ( {reducerMainInfo[1]} )</pre>
 				<pre>{reducerMainInfo[5]}</pre>
 				<pre>{reducerMainInfo[6]}</pre>
+				{
+					cargo
+				}
 			</Fragment>
 		);
 
