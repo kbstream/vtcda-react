@@ -128,7 +128,7 @@ class App extends Component {
 				<div>
 					<pre>$natural on the {reducerDate.day}th of {reducerDate.month} at {reducerTime} send @everyone</pre>
 					{info}
-					<pre>{reducerLink} to #анонс </pre>
+					<pre>{reducerLink} to #конвои </pre>
 				</div>
 			)
 		} else {
